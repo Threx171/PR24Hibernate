@@ -16,7 +16,8 @@ public class Autor implements Serializable{
     @Column(name = "nom", nullable = false)
     private String nom;
 
-    @OneToMany(mappedBy = "autor")
+    @OneToMany
+    @JoinColumn(name = "autorId") 
     private Set<Llibre> llibres;
 
     // Constructors, getters i setters

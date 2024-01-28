@@ -1,11 +1,13 @@
 package com.project;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Persona {
+public class Persona implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +25,9 @@ public class Persona {
 
     @ManyToMany
     @JoinTable(
-            name = "prestecs",
-            joinColumns = @JoinColumn(name = "persona_id"),
-            inverseJoinColumns = @JoinColumn(name = "llibre_id")
+            name = "Llibre_Persona",
+            joinColumns = @JoinColumn(name = "personaId"),
+            inverseJoinColumns = @JoinColumn(name = "llibreId")
     )
     private Set<Llibre> llibres;
 

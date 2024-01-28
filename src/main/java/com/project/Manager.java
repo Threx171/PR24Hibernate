@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session; 
 import org.hibernate.Transaction;
@@ -262,6 +263,26 @@ public class Manager {
         try {
             tx = session.beginTransaction();
             SQLQuery query = session.createSQLQuery(queryString);
+            @SuppressWarnings("unchecked")
+            List<Object[]> rows = query.list();
+            result = rows;
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace(); 
+        } finally {
+            session.close(); 
+        }
+        return result;
+    }
+
+    public static List<Object[]> queryTableHQL(String hqlString) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<Object[]> result = null;
+        try {
+            tx = session.beginTransaction();
+            Query query = session.createQuery(hqlString);
             @SuppressWarnings("unchecked")
             List<Object[]> rows = query.list();
             result = rows;

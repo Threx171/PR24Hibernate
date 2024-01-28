@@ -3,6 +3,7 @@ package com.project;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Main {
@@ -217,6 +218,27 @@ public class Main {
       @SuppressWarnings("unchecked")
       Collection<Autor> colAutors = (Collection<Autor>) Manager.listCollection(Autor.class, "");
       System.out.println(Manager.collectionToString(Autor.class, colAutors));
+
+      @SuppressWarnings("unchecked")
+      List<Object[]> booksAndLibraries = Manager.queryTableHQL("SELECT l.nom, b.nom FROM Biblioteca b JOIN b.llibres l");
+      System.out.println("Books and their libraries:");
+      for (Object[] result : booksAndLibraries) {
+          System.out.println("Book: " + result[0] + ", Library: " + result[1]);
+      }
+
+      @SuppressWarnings("unchecked")
+      List<Object[]> booksAndAuthors = Manager.queryTableHQL("SELECT l.nom, a.nom FROM Autor a JOIN a.llibres l");
+      System.out.println("Books and their authors:");
+      for (Object[] result : booksAndAuthors) {
+         System.out.println("Book: " + result[0] + ", Author: " + result[1]);
+      }
+
+      @SuppressWarnings("unchecked")
+      List<Object[]> loanedBooksAndPeople = Manager.queryTableHQL("SELECT l.nom, p.nom FROM Persona p JOIN p.llibres l");
+      System.out.println("Loaned books and people who have them:");
+      for (Object[] result : loanedBooksAndPeople) {
+         System.out.println("Book: " + result[0] + ", Person: " + result[1]);
+      }
 
 
       Manager.close();
